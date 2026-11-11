@@ -14,6 +14,7 @@ namespace nystudio107\seomatic\base;
 use craft\base\ElementInterface;
 use craft\base\Model;
 use craft\elements\db\ElementQueryInterface;
+use CraftCms\Cms\Component\Component as NativeComponent;
 use nystudio107\seomatic\models\MetaBundle;
 
 /**
@@ -120,7 +121,7 @@ interface SeoElementInterface
      *
      * @param int $sourceId
      *
-     * @return Model|null
+     * @return Model|NativeComponent|null
      */
     public static function sourceModelFromId(int $sourceId);
 
@@ -129,19 +130,19 @@ interface SeoElementInterface
      *
      * @param string $sourceHandle
      *
-     * @return Model|null
+     * @return Model|NativeComponent|null
      */
     public static function sourceModelFromHandle(string $sourceHandle);
 
     /**
      * Return the most recently updated Element from a given source model
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      * @param int $sourceSiteId
      *
      * @return null|ElementInterface
      */
-    public static function mostRecentElement(Model $sourceModel, int $sourceSiteId);
+    public static function mostRecentElement(Model|NativeComponent $sourceModel, int $sourceSiteId);
 
     /**
      * Return the path to the config file directory
@@ -153,11 +154,11 @@ interface SeoElementInterface
     /**
      * Return a meta bundle config array for the given $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      *
      * @return array
      */
-    public static function metaBundleConfig(Model $sourceModel): array;
+    public static function metaBundleConfig(Model|NativeComponent $sourceModel): array;
 
     /**
      * Return the source id from the $element
@@ -189,9 +190,9 @@ interface SeoElementInterface
     /**
      * Create a MetaBundle in the db for each site, from the passed in $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      */
-    public static function createContentMetaBundle(Model $sourceModel);
+    public static function createContentMetaBundle(Model|NativeComponent $sourceModel);
 
     /**
      * Create all the MetaBundles in the db for this Seo Element

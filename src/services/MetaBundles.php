@@ -21,7 +21,9 @@ use craft\models\CategoryGroup;
 use craft\models\Section;
 use craft\models\Section_SiteSettings;
 use craft\models\Site;
+use CraftCms\Cms\Component\Component as NativeComponent;
 use DateTime;
+use function in_array;
 use nystudio107\seomatic\base\SeoElementInterface;
 use nystudio107\seomatic\fields\SeoSettings;
 use nystudio107\seomatic\helpers\ArrayHelper;
@@ -38,7 +40,6 @@ use nystudio107\seomatic\Seomatic;
 use nystudio107\seomatic\services\Tag as TagService;
 use Throwable;
 use yii\base\InvalidConfigException;
-use function in_array;
 
 /**
  * Meta bundle functions for SEOmatic
@@ -338,7 +339,7 @@ class MetaBundles extends Component
 
     /**
      * @param class-string<SeoElementInterface> $seoElement
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      * @param int $sourceSiteId
      * @param ?MetaBundle $baseConfig
      * @param bool $syncConfig

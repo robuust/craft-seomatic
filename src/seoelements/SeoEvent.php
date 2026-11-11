@@ -16,6 +16,7 @@ use craft\base\ElementInterface;
 use craft\base\Model;
 use craft\elements\db\ElementQueryInterface;
 use craft\models\Site;
+use CraftCms\Cms\Component\Component as NativeComponent;
 use Exception;
 use nystudio107\seomatic\assetbundles\seomatic\SeomaticAsset;
 use nystudio107\seomatic\base\GqlSeoElementInterface;
@@ -203,9 +204,9 @@ class SeoEvent implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Create a MetaBundle in the db for each site, from the passed in $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      */
-    public static function createContentMetaBundle(Model $sourceModel)
+    public static function createContentMetaBundle(Model|NativeComponent $sourceModel)
     {
         /** @var CalendarModel $sourceModel */
         $sites = Craft::$app->getSites()->getAllSites();
@@ -376,12 +377,12 @@ class SeoEvent implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return the most recently updated Element from a given source model
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      * @param int $sourceSiteId
      *
      * @return null|ElementInterface
      */
-    public static function mostRecentElement(Model $sourceModel, int $sourceSiteId)
+    public static function mostRecentElement(Model|NativeComponent $sourceModel, int $sourceSiteId)
     {
         /** @var CalendarModel $sourceModel */
         /** @phpstan-ignore-next-line */
@@ -396,11 +397,11 @@ class SeoEvent implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return a meta bundle config array for the given $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      *
      * @return array
      */
-    public static function metaBundleConfig(Model $sourceModel): array
+    public static function metaBundleConfig(Model|NativeComponent $sourceModel): array
     {
         /** @var CalendarModel $sourceModel */
         return ArrayHelper::merge(

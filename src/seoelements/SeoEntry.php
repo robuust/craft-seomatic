@@ -23,6 +23,7 @@ use craft\helpers\ElementHelper;
 use craft\models\Section;
 use craft\models\Site;
 use craft\services\Entries;
+use CraftCms\Cms\Component\Component as NativeComponent;
 use nystudio107\seomatic\assetbundles\seomatic\SeomaticAsset;
 use nystudio107\seomatic\base\GqlSeoElementInterface;
 use nystudio107\seomatic\base\SeoElementInterface;
@@ -356,12 +357,12 @@ class SeoEntry implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return the most recently updated Element from a given source model
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      * @param int $sourceSiteId
      *
      * @return null|ElementInterface
      */
-    public static function mostRecentElement(Model $sourceModel, int $sourceSiteId)
+    public static function mostRecentElement(Model|NativeComponent $sourceModel, int $sourceSiteId)
     {
         /** @var Section $sourceModel */
         return Entry::find()
@@ -385,11 +386,11 @@ class SeoEntry implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return a meta bundle config array for the given $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      *
      * @return array
      */
-    public static function metaBundleConfig(Model $sourceModel): array
+    public static function metaBundleConfig(Model|NativeComponent $sourceModel): array
     {
         /** @var Section $sourceModel */
         return ArrayHelper::merge(
@@ -398,7 +399,7 @@ class SeoEntry implements SeoElementInterface, GqlSeoElementInterface
                 'sourceId' => $sourceModel->id,
                 'sourceName' => (string)$sourceModel->name,
                 'sourceHandle' => $sourceModel->handle,
-                'sourceType' => $sourceModel->type,
+                'sourceType' => $sourceModel->type?->value,
             ]
         );
     }
@@ -464,9 +465,9 @@ class SeoEntry implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Create a MetaBundle in the db for each site, from the passed in $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      */
-    public static function createContentMetaBundle(Model $sourceModel)
+    public static function createContentMetaBundle(Model|NativeComponent $sourceModel)
     {
         /** @var Section $sourceModel */
         $sites = Craft::$app->getSites()->getAllSites();

@@ -22,6 +22,7 @@ use craft\gql\interfaces\elements\Category as CategoryInterface;
 use craft\models\CategoryGroup;
 use craft\models\Site;
 use craft\services\Categories;
+use CraftCms\Cms\Component\Component as NativeComponent;
 use Exception;
 use nystudio107\seomatic\assetbundles\seomatic\SeomaticAsset;
 use nystudio107\seomatic\base\GqlSeoElementInterface;
@@ -341,12 +342,12 @@ class SeoCategory implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return the most recently updated Element from a given source model
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      * @param int $sourceSiteId
      *
      * @return null|ElementInterface
      */
-    public static function mostRecentElement(Model $sourceModel, int $sourceSiteId)
+    public static function mostRecentElement(Model|NativeComponent $sourceModel, int $sourceSiteId)
     {
         /** @var CategoryGroup $sourceModel */
         return Category::find()
@@ -370,11 +371,11 @@ class SeoCategory implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Return a meta bundle config array for the given $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      *
      * @return array
      */
-    public static function metaBundleConfig(Model $sourceModel): array
+    public static function metaBundleConfig(Model|NativeComponent $sourceModel): array
     {
         /** @var CategoryGroup $sourceModel */
         return ArrayHelper::merge(
@@ -435,9 +436,9 @@ class SeoCategory implements SeoElementInterface, GqlSeoElementInterface
     /**
      * Create a MetaBundle in the db for each site, from the passed in $sourceModel
      *
-     * @param Model $sourceModel
+     * @param Model|NativeComponent $sourceModel
      */
-    public static function createContentMetaBundle(Model $sourceModel)
+    public static function createContentMetaBundle(Model|NativeComponent $sourceModel)
     {
         /** @var CategoryGroup $sourceModel */
         $sites = Craft::$app->getSites()->getAllSites();
