@@ -32,18 +32,6 @@
     }
   ],
   "require-dev": {
-  },
-  "require": {
-    "php": "^8.2",
-    "craftcms/cms": "^5.0.0",
-    "nystudio107/craft-plugin-vite": "^5.0.0",
-    "nystudio107/craft-code-editor": "^1.0.14",
-    "nystudio107/craft-twig-sandbox": "^5.0.5",
-    "php-science/textrank": "^1.0.3",
-    "davechild/textstatistics": "^1.0.3",
-    "sunra/php-simple-html-dom-parser": "^1.5.2"
-  },
-  "require-dev": {
     "codeception/codeception": "^5.0.11",
     "codeception/module-asserts": "^3.0.0",
     "codeception/module-datafactory": "^3.0.0",
@@ -68,6 +56,17 @@
     "spicyweb/craft-neo": "^5.0.0",
     "verbb/doxter": "^6.0.0"
   },
+  "require": {
+    "php": "^8.5",
+    "craftcms/cms": "6.0.0-beta.1",
+    "nystudio107/craft-plugin-vite": "dev-feature/craft6-beta1-compatibility",
+    "nystudio107/craft-code-editor": "dev-feature/craft6-beta1-compatibility",
+    "nystudio107/craft-twig-sandbox": "dev-feature/craft6-beta1-compatibility",
+    "php-science/textrank": "^1.0.3",
+    "davechild/textstatistics": "^1.0.3",
+    "sunra/php-simple-html-dom-parser": "^1.5.2",
+    "craftcms/yii2-adapter": "6.0.0-beta.1"
+  },
   "scripts": {
     "phpstan": "phpstan --ansi --memory-limit=2G",
     "check-cs": "ecs check --ansi",
@@ -84,7 +83,7 @@
     },
     "optimize-autoloader": true,
     "platform": {
-      "php": "8.2"
+      "php": "8.5"
     },
     "platform-check": false,
     "sort-packages": true
