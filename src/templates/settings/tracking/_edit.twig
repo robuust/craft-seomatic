@@ -47,7 +47,7 @@
                             id: "include",
                             name: "include",
                             on: scriptData.include,
-                            warning: false,
+                            warning: null,
                             errors: scriptData.getErrors("include"),
                         }) }}
                     </div>
@@ -62,7 +62,7 @@
                                     id: "vars-#{varHandle}",
                                     name: "vars[#{varHandle}]",
                                     on: varData.value,
-                                    warning: false,
+                                    warning: null,
                                 }) }}
 
                             {% case "string" %}
@@ -73,7 +73,7 @@
                                     id: "vars-#{varHandle}",
                                     name: "vars[#{varHandle}]",
                                     value: varData.value ?? "",
-                                    warning: false,
+                                    warning: null,
                                 }) }}
                             {% default %}
 
@@ -119,7 +119,7 @@
                                 name: "templateString",
                                 value: scriptData.templateString,
                                 class: "seomatic-javascript-editor selectize-text hidden",
-                                warning: false,
+                                warning: null,
                                 errors: scriptData.getErrors("templateString"),
                             }, "SeomaticTrackingField", {}, codeEditorOptions | merge({wrapperClass: "monaco-editor-background-frame"})) }}
                             {{ forms.selectField({
@@ -145,7 +145,7 @@
                                 name: "bodyTemplateString",
                                 value: scriptData.bodyTemplateString,
                                 class: "seomatic-javascript-editor selectize-text hidden",
-                                warning: false,
+                                warning: null,
                                 errors: scriptData.getErrors("bodyTemplateString"),
                             }, "SeomaticTrackingField", {}, codeEditorOptions | merge({wrapperClass: "monaco-editor-background-frame"})) }}
 

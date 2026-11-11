@@ -16,7 +16,7 @@
                         on: not isInherited,
                         onLabel: "Override"|t("seomatic"),
                         offLabel: fieldLabel,
-                        warning: false,
+                        warning: null,
                         name: 'override-' ~ settingName|default(''),
                         value: isInherited ? false : '1',
                     }) }}

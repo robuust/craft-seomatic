@@ -85,7 +85,7 @@
                         name: "ogImageTransformMode",
                         options: imageCropModes,
                         value: metaBundleSettings.ogImageTransformMode,
-                        warning: false,
+                        warning: null,
                         errors: metaBundleSettings.getErrors("ogImageTransformMode"),
                         disabled: disabled,
                     }) }}
@@ -111,7 +111,7 @@
                     name: "ogImageTransform",
                     instructions: "Whether the Facebook OpenGraph image should be automatically transformed to an appropriate file format and aspect ratio for Facebook."|t("seomatic"),
                     on: metaBundleSettings.ogImageTransform,
-                    warning: false,
+                    warning: null,
                     errors: metaBundleSettings.getErrors("ogImageTransform"),
                     disabled: disabled,
                     toggle: ".og-image-transform-settings",
@@ -174,7 +174,7 @@
                     selectionLabel: "Select Facebook OpenGraph Image"|t("seomatic"),
                     sources: assetVolumeSources,
                     limit: 1,
-                    warning: false,
+                    warning: null,
                     errors: metaBundleSettings.getErrors("ogImageIds"),
                     disabled: disabled,
                 }) }}
@@ -188,7 +188,7 @@
                         id: "ogImage" ~ suffix,
                         name: "ogImage",
                         value: metaGlobalVars.ogImage,
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("ogImage"),
                         disabled: disabled,
                     }, "SeomaticExpressionField", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
@@ -198,7 +198,7 @@
                         name: "ogImage",
                         value: metaGlobalVars.ogImage,
                         class: "nicetext",
-                        warning: false,
+                        warning: null,
                         errors: metaBundleSettings.getErrors("ogImage"),
                         disabled: disabled,
                     }) }}

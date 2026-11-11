@@ -57,7 +57,7 @@
                         id: "seoDescription" ~ suffix,
                         name: "seoDescription",
                         value: metaGlobalVars.seoDescription,
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("seoDescription"),
                         disabled: disabled,
                     }, "SeomaticExpressionField", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
@@ -69,7 +69,7 @@
                         class: "nicetext",
                         maxlength: seomaticConfig.maxDescriptionLength,
                         showCharsLeft: true,
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("seoDescription"),
                         disabled: disabled,
                     }) }}

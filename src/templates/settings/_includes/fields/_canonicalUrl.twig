@@ -27,7 +27,7 @@
                     id: "canonicalUrl" ~ suffix,
                     name: "canonicalUrl",
                     value: metaGlobalVars.canonicalUrl,
-                    warning: false,
+                    warning: null,
                     errors: metaGlobalVars.getErrors("canonicalUrl"),
                 }, "SeomaticExpressionField", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
             {% else %}
@@ -39,7 +39,7 @@
                         name: "canonicalUrl",
                         value: metaGlobalVars.canonicalUrl,
                         class: "nicetext",
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("canonicalUrl"),
                     }) }}
                 {% else %}
@@ -48,7 +48,7 @@
                         name: "canonicalUrl",
                         value: metaGlobalVars.canonicalUrl,
                         class: "nicetext",
-                        warning: false,
+                        warning: null,
                         disabled: true,
                         errors: metaGlobalVars.getErrors("canonicalUrl"),
                     }) }}

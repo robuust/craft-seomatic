@@ -16,7 +16,7 @@
             id: "include",
             name: "include",
             on: humansTemplate.include,
-            warning: false,
+            warning: null,
             errors: humansTemplate.getErrors("include"),
         }) }}
 
@@ -27,7 +27,7 @@
             name: "templateString",
             value: humansTemplate.templateString,
             class: "seomatic-javascript-editor selectize-text hidden",
-            warning: false,
+            warning: null,
             errors: humansTemplate.getErrors("templateString"),
         }, "Twigfield", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
     {% endnamespace %}

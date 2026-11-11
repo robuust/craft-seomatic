@@ -88,7 +88,7 @@
                         name: "twitterImageTransformMode",
                         options: imageCropModes,
                         value: metaBundleSettings.twitterImageTransformMode,
-                        warning: false,
+                        warning: null,
                         errors: metaBundleSettings.getErrors("twitterImageTransformMode"),
                         disabled: disabled,
                     }) }}
@@ -114,7 +114,7 @@
                     id: "twitterImageTransform" ~ suffix,
                     name: "twitterImageTransform",
                     on: metaBundleSettings.twitterImageTransform,
-                    warning: false,
+                    warning: null,
                     errors: metaBundleSettings.getErrors("twitterImageTransform"),
                     disabled: disabled,
                     toggle: ".twitter-image-transform-settings",
@@ -178,7 +178,7 @@
                     selectionLabel: "Select X (Twitter) Image"|t("seomatic"),
                     sources: assetVolumeSources,
                     limit: 1,
-                    warning: false,
+                    warning: null,
                     errors: metaBundleSettings.getErrors("twitterImageIds"),
                     disabled: disabled,
                 }) }}
@@ -192,7 +192,7 @@
                         id: "twitterImage" ~ suffix,
                         name: "twitterImage",
                         value: metaGlobalVars.twitterImage,
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("twitterImage"),
                         disabled: disabled,
                     }, "SeomaticExpressionField", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
@@ -202,7 +202,7 @@
                         name: "twitterImage",
                         value: metaGlobalVars.twitterImage,
                         class: "nicetext",
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("twitterImage"),
                         disabled: disabled,
                     }) }}

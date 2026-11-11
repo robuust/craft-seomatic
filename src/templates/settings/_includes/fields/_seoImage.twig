@@ -65,7 +65,7 @@
                     selectionLabel: "Select SEO Image"|t("seomatic"),
                     sources: assetVolumeSources,
                     limit: 1,
-                    warning: false,
+                    warning: null,
                     errors: metaBundleSettings.getErrors("seoImageIds"),
                     disabled: disabled,
                 }) }}
@@ -79,7 +79,7 @@
                         id: "seoImage" ~ suffix,
                         name: "seoImage",
                         value: metaGlobalVars.seoImage,
-                        warning: false,
+                        warning: null,
                         errors: metaGlobalVars.getErrors("seoImage"),
                         disabled: disabled,
                     }, "SeomaticExpressionField", {}, {wrapperClass: "monaco-editor-background-frame"}) }}
@@ -89,7 +89,7 @@
                         name: "seoImage",
                         value: metaGlobalVars.seoImage,
                         class: "nicetext",
-                        warning: false,
+                        warning: null,
                         errors: metaBundleSettings.getErrors("seoImage"),
                         disabled: disabled,
                     }) }}
