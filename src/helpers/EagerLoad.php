@@ -11,9 +11,9 @@
 
 namespace nystudio107\seomatic\helpers;
 
-use craft\fields\Matrix;
 use craft\models\FieldLayout;
 use craft\models\Section;
+use CraftCms\Cms\Field\Matrix;
 use nystudio107\seomatic\helpers\Field as FieldHelper;
 use nystudio107\seomatic\models\MetaBundle;
 use nystudio107\seomatic\Seomatic;

@@ -13,7 +13,7 @@ use craft\db\Paginator;
 use craft\elements\Asset;
 use craft\elements\Entry;
 use craft\errors\SiteNotFoundException;
-use craft\fields\Assets as AssetsField;
+use CraftCms\Cms\Field\Assets as AssetsField;
 use CraftCms\Cms\Support\DateTimeHelper;
 use DateTime;
 use function in_array;
