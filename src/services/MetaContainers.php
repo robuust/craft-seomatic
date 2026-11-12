@@ -992,7 +992,11 @@ class MetaContainers extends Component
             foreach ($fieldHandles as $fieldHandle) {
                 if (!empty($element->$fieldHandle)) {
                     /** @var MetaBundle $metaBundle */
-                    $metaBundle = $element->$fieldHandle;
+                    $metaBundle = clone $element->$fieldHandle;
+                    $metaBundle->metaGlobalVars = clone $metaBundle->metaGlobalVars;
+                    $metaBundle->metaSiteVars = clone $metaBundle->metaSiteVars;
+                    $metaBundle->metaSitemapVars = clone $metaBundle->metaSitemapVars;
+                    $metaBundle->metaBundleSettings = clone $metaBundle->metaBundleSettings;
                     Seomatic::$plugin->metaBundles->pruneFieldMetaBundleSettings($metaBundle, $fieldHandle);
 
                     // See which properties have to be overridden, because the parent bundle says so.
