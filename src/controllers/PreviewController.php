@@ -18,6 +18,8 @@ use craft\web\Controller;
 use nystudio107\seomatic\assetbundles\seomatic\SeomaticAsset;
 use nystudio107\seomatic\helpers\PluginTemplate;
 use nystudio107\seomatic\Seomatic;
+use yii\web\BadRequestHttpException;
+use yii\web\Response;
 
 /**
  * @author    nystudio107
@@ -40,16 +42,27 @@ class PreviewController extends Controller
     // =========================================================================
 
     /**
-     * @param $elementId
-     * @param $siteId
+     * Render the authorized social preview for the IDs supplied in the query.
      *
-     * @return \yii\web\Response
+     * @return Response the social preview HTML
      * @throws \yii\web\BadRequestHttpException
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ForbiddenHttpException
      */
-    public function actionSocialMedia($elementId, $siteId = null)
+    public function actionSocialMedia(): Response
     {
+        $request = Craft::$app->getRequest();
+        $elementId = filter_var($request->getRequiredQueryParam('elementId'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($elementId === false) {
+            throw new BadRequestHttpException('Invalid element ID.');
+        }
+        $siteId = $request->getQueryParam('siteId');
+        if ($siteId !== null) {
+            $siteId = filter_var($siteId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+            if ($siteId === false) {
+                throw new BadRequestHttpException('Invalid site ID.');
+            }
+        }
         $html = '';
 
         // Don't allow the preview to be accessed publicly
