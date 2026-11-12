@@ -233,7 +233,7 @@ class Sitemaps extends Component implements SitemapInterface
             foreach ($searchEngineUrls as &$url) {
                 $groups = Craft::$app->getSites()->getAllGroups();
                 foreach ($groups as $group) {
-                    $groupSiteIds = $group->getSiteIds();
+                    $groupSiteIds = $group->getSiteIds()->all();
                     if (!empty($groupSiteIds)) {
                         $siteId = $groupSiteIds[0];
                         $sitemapIndexUrl = $this->sitemapIndexUrlForSiteId($siteId);

@@ -139,7 +139,7 @@ class SitemapIndexTemplate extends FrontendTemplate implements SitemapInterface
                     'groupId' => $groupId,
                 ]));
             }
-            $groupSiteIds = $siteGroup->getSiteIds();
+            $groupSiteIds = $siteGroup->getSiteIds()->all();
         } else {
             $groupSiteIds = Craft::$app->getSites()->allSiteIds;
         }

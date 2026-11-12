@@ -104,7 +104,7 @@ class Sitemap
             }
             $siteGroup = Craft::$app->getSites()->getGroupById($groupId);
             if ($siteGroup !== null) {
-                $groupSiteIds = $siteGroup->getSiteIds();
+                $groupSiteIds = $siteGroup->getSiteIds()->all();
             }
         }
 

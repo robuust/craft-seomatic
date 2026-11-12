@@ -17,6 +17,14 @@ use craft\base\PreviewableFieldInterface;
 use craft\elements\Asset;
 use craft\helpers\Json;
 use craft\helpers\StringHelper;
+use CraftCms\Cms\Field\FieldContext;
+use CraftCms\Cms\Ui\Contracts\Control;
+use CraftCms\Yii2Adapter\Ui\Controls\LegacyHtmlControl;
+use CraftCms\Yii2Adapter\Ui\LegacyHtml;
+use function in_array;
+use function is_array;
+use function is_object;
+use function is_string;
 use nystudio107\seomatic\assetbundles\seomatic\SeomaticAsset;
 use nystudio107\seomatic\helpers\ArrayHelper;
 use nystudio107\seomatic\helpers\AssetHelper;
@@ -33,10 +41,6 @@ use ReflectionClass;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 use yii\db\Schema;
-use function in_array;
-use function is_array;
-use function is_object;
-use function is_string;
 
 /**
  * @author    nystudio107
@@ -188,6 +192,28 @@ class SeoSettings extends Field implements PreviewableFieldInterface
     public function useFieldset(): bool
     {
         return false;
+    }
+
+    /**
+     * Initialize the native editor with the nested values its legacy control publishes.
+     *
+     * @param FieldContext $context the field's editor context
+     *
+     * @return Control the legacy HTML control with field-relative initial values
+     */
+    public function uiControl(FieldContext $context): Control
+    {
+        /** @var LegacyHtmlControl $control */
+        $control = parent::uiControl($context);
+        $values = app(LegacyHtml::class)->expand($control->getValue());
+        $namespace = $control->props()['namespace'];
+        $path = $namespace === null ? [] : preg_split('/[\[\]]+/', $namespace, -1, PREG_SPLIT_NO_EMPTY);
+        $path[] = $this->handle;
+        foreach ($path as $segment) {
+            $values = $values[$segment] ?? [];
+        }
+
+        return $control->value($values);
     }
 
     /**
