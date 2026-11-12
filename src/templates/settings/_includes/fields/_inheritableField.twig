@@ -2,28 +2,33 @@
 {% set wrapperClass = wrapperClass|default('') %}
 {% set wrapperId = wrapperId|default('') %}
 {% set fieldLabel = fieldLabel|default('') %}
+{% set overrideNamespace = overrideNamespace|default('metaGlobalVars') %}
+{% set settingsId = overrideNamespace ~ '-seomatic-' ~ settingName ~ '-settings' %}
+{% set inheritedId = overrideNamespace ~ '-seomatic-' ~ settingName ~ '-inherited' %}
 {% if pageContext != "field" %}
     {% set isInherited = false %}
 {% endif %}
 
 {% import "_includes/forms" as forms %}
-<div class="inheritable-field {{ isInherited ? 'inherited-settings' : 'defined-settings' }}">
+<div class="inheritable-field">
     <div class="field {{ wrapperClass|default('') }}" style="margin-top: 18px!important;">
         {% if pageContext == "field" %}
             <div class="override">
-                {% namespace overrideNamespace|default("metaGlobalVars") %}
+                {% namespace overrideNamespace %}
                     {{ forms.lightswitchField({
                         on: not isInherited,
                         onLabel: "Override"|t("seomatic"),
                         offLabel: fieldLabel,
                         warning: null,
                         name: 'override-' ~ settingName|default(''),
-                        value: isInherited ? false : '1',
+                        value: '1',
+                        toggle: '#' ~ settingsId,
+                        reverseToggle: '#' ~ inheritedId,
                     }) }}
                 {% endnamespace %}
             </div>
 
-            <div class="inherited value-wrapper">
+            <div id="{{ inheritedId }}" class="inherited value-wrapper {{ not isInherited ? 'hidden' }}">
                 {% block inheritedValues %}
 
                 {% endblock %}
@@ -36,7 +41,7 @@
                 </div>
             </div>
         {% endif %}
-        <div class="field-settings value-wrapper">
+        <div id="{{ settingsId }}" class="field-settings value-wrapper {{ isInherited ? 'hidden' }}">
             {% block field %}
 
             {% endblock %}
