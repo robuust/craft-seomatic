@@ -2,7 +2,9 @@
 
 namespace nystudio107\seomatic\helpers;
 
+use function array_intersect_key;
 use benf\neo\elements\Block as NeoBlock;
+use function count;
 use Craft;
 use craft\base\Element;
 use craft\base\Event;
@@ -12,7 +14,9 @@ use craft\elements\Asset;
 use craft\elements\Entry;
 use craft\errors\SiteNotFoundException;
 use craft\fields\Assets as AssetsField;
+use CraftCms\Cms\Support\DateTimeHelper;
 use DateTime;
+use function in_array;
 use nystudio107\seomatic\base\SeoElementInterface;
 use nystudio107\seomatic\events\IncludeSitemapEntryEvent;
 use nystudio107\seomatic\events\ModifySitemapQueryEvent;
@@ -25,9 +29,6 @@ use nystudio107\seomatic\Seomatic;
 use Throwable;
 use yii\base\Exception;
 use yii\helpers\Html;
-use function array_intersect_key;
-use function count;
-use function in_array;
 
 /**
  * @author    nystudio107
@@ -274,7 +275,7 @@ class Sitemap
                     $lines[] = self::encodeSitemapEntity($url);
                     $lines[] = '</loc>';
                     $lines[] = '<lastmod>';
-                    $lines[] = $dateUpdated->format(DateTime::W3C);
+                    $lines[] = DateTimeHelper::toIso8601($dateUpdated);
                     $lines[] = '</lastmod>';
                     $lines[] = '<changefreq>';
                     $lines[] = $metaBundle->metaSitemapVars->sitemapChangeFreq;
@@ -348,7 +349,7 @@ class Sitemap
                             $lines[] = '<news:name>' . self::encodeSitemapEntity($metaBundle->metaSitemapVars->newsPublicationName) . '</news:name>';
                             $lines[] = '<news:language>' . $language . '</news:language>';
                             $lines[] = '</news:publication>';
-                            $lines[] = '<news:publication_date>' . $dateUpdated->format(DateTime::W3C) . '</news:publication_date>';
+                            $lines[] = '<news:publication_date>' . DateTimeHelper::toIso8601($dateUpdated) . '</news:publication_date>';
                             $lines[] = '<news:title>' . self::encodeSitemapEntity($element->title) . '</news:title>';
                             $lines[] = '</news:news>';
                         }
@@ -695,7 +696,7 @@ class Sitemap
                 $lines[] = self::encodeSitemapEntity(UrlHelper::absoluteUrlWithProtocol($asset->getUrl(), false));
                 $lines[] = '</loc>';
                 $lines[] = '<lastmod>';
-                $lines[] = $dateUpdated->format(DateTime::W3C);
+                $lines[] = DateTimeHelper::toIso8601($dateUpdated);
                 $lines[] = '</lastmod>';
                 $lines[] = '<changefreq>';
                 $lines[] = $metaBundle->metaSitemapVars->sitemapChangeFreq;

@@ -13,8 +13,10 @@ namespace nystudio107\seomatic\models;
 
 use Craft;
 use craft\models\SiteGroup;
+use CraftCms\Cms\Support\DateTimeHelper;
 use DateTime;
 use Exception;
+use function in_array;
 use nystudio107\seomatic\base\FrontendTemplate;
 use nystudio107\seomatic\base\SitemapInterface;
 use nystudio107\seomatic\events\RegisterSitemapsEvent;
@@ -26,7 +28,6 @@ use yii\base\Event;
 use yii\caching\TagDependency;
 use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
-use function in_array;
 
 /**
  * @author    nystudio107
@@ -217,7 +218,7 @@ class SitemapIndexTemplate extends FrontendTemplate implements SitemapInterface
 
                             if ($metaBundle->sourceDateUpdated !== null) {
                                 $lines[] = '<lastmod>';
-                                $lines[] = $metaBundle->sourceDateUpdated->format(DateTime::W3C);
+                                $lines[] = DateTimeHelper::toIso8601($metaBundle->sourceDateUpdated);
                                 $lines[] = '</lastmod>';
                             }
 
@@ -290,7 +291,7 @@ class SitemapIndexTemplate extends FrontendTemplate implements SitemapInterface
                         ? $additionalSitemap['lastmod']
                         : new DateTime();
                     $lines[] = '<lastmod>';
-                    $lines[] = $dateUpdated->format(DateTime::W3C);
+                    $lines[] = DateTimeHelper::toIso8601($dateUpdated);
                     $lines[] = '</lastmod>';
                     $lines[] = '</sitemap>';
                 }
@@ -340,7 +341,7 @@ class SitemapIndexTemplate extends FrontendTemplate implements SitemapInterface
             }
             if ($dateUpdated !== null) {
                 $lines[] = '<lastmod>';
-                $lines[] = $dateUpdated->format(DateTime::W3C);
+                $lines[] = DateTimeHelper::toIso8601($dateUpdated);
                 $lines[] = '</lastmod>';
             }
             $lines[] = '</sitemap>';
