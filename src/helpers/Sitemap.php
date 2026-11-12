@@ -9,13 +9,14 @@ use Craft;
 use craft\base\Element;
 use craft\base\Event;
 use craft\console\Application as ConsoleApplication;
-use craft\db\Paginator;
-use craft\elements\Asset;
-use craft\elements\Entry;
 use craft\errors\SiteNotFoundException;
+use CraftCms\Cms\Asset\Elements\Asset;
+use CraftCms\Cms\Element\Queries\ElementQuery;
+use CraftCms\Cms\Entry\Elements\Entry;
 use CraftCms\Cms\Field\Assets as AssetsField;
 use CraftCms\Cms\Support\DateTimeHelper;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use function in_array;
 use nystudio107\seomatic\base\SeoElementInterface;
 use nystudio107\seomatic\events\IncludeSitemapEntryEvent;
@@ -162,7 +163,7 @@ class Sitemap
         // Stash the sitemap attributes so they can be modified on a per-entry basis
         $stashedSitemapAttrs = $metaBundle->metaSitemapVars->getAttributes();
         $stashedGlobalVarsAttrs = $metaBundle->metaGlobalVars->getAttributes();
-        // Use craft\db\Paginator to paginate the results so we don't exceed any memory limits
+        // Paginate the results in bounded batches so we don't exceed memory limits.
         // See batch() and each() discussion here: https://github.com/yiisoft/yii2/issues/8420
         // and here: https://github.com/craftcms/cms/issues/7338
 
@@ -185,10 +186,8 @@ class Sitemap
         // If this is not a paged sitemap, go through full results
         if (empty($sitemapPageSize)) {
             $pagedSitemap = false;
-            $paginator = new Paginator($elementQuery, [
-                'pageSize' => self::SITEMAP_QUERY_PAGE_SIZE,
-            ]);
-            $elements = $paginator->getPageResults();
+            $paginator = self::sitemapPaginator($elementQuery, 1, $totalElements);
+            $elements = $paginator->items();
         } else {
             $sitemapPage = empty($page) ? 1 : $page;
             $pagedSitemap = true;
@@ -196,9 +195,6 @@ class Sitemap
             $elementQuery->offset(($sitemapPage - 1) * $sitemapPageSize);
             $elements = $elementQuery->all();
             $totalElements = $sitemapPageSize;
-            $paginator = new Paginator($elementQuery, [
-                'pageSize' => $sitemapPageSize,
-            ]);
         }
 
         $currentElement = 1;
@@ -209,9 +205,9 @@ class Sitemap
                     $message = sprintf('Query %d elements', $sitemapPageSize);
                 } else {
                     $message = sprintf('Query %d / %d - elements: %d',
-                        $paginator->getCurrentPage(),
-                        $paginator->getTotalPages(),
-                        $paginator->getTotalResults());
+                        $paginator->currentPage(),
+                        $paginator->lastPage(),
+                        $paginator->total());
                 }
                 echo $message . PHP_EOL;
             }
@@ -454,18 +450,38 @@ class Sitemap
                 break;
             }
 
-            if ($paginator->getCurrentPage() == $paginator->getTotalPages()) {
+            if (!$paginator->hasMorePages()) {
                 break;
             }
 
-            $paginator->currentPage++;
-            $elements = $paginator->getPageResults();
+            $paginator = self::sitemapPaginator($elementQuery, $paginator->currentPage() + 1, $totalElements);
+            $elements = $paginator->items();
         } while (!empty($elements));
 
         // Sitemap closing tag
         $lines[] = '</urlset>';
 
         return implode('', $lines);
+    }
+
+    /**
+     * Fetch one native-query batch while preserving the sitemap limit and offset.
+     *
+     * @param ElementQuery $query the sitemap element query
+     * @param int $page the one-based batch number
+     * @param int $total the total results allowed in this sitemap
+     *
+     * @return LengthAwarePaginator the current bounded batch and its pagination metadata
+     */
+    private static function sitemapPaginator(ElementQuery $query, int $page, int $total): LengthAwarePaginator
+    {
+        $pageOffset = ($page - 1) * self::SITEMAP_QUERY_PAGE_SIZE;
+        $elements = (clone $query)
+            ->offset((int)$query->getOffset() + $pageOffset)
+            ->limit(min(self::SITEMAP_QUERY_PAGE_SIZE, $total - $pageOffset))
+            ->all();
+
+        return new LengthAwarePaginator($elements, $total, self::SITEMAP_QUERY_PAGE_SIZE, $page);
     }
 
     /**
