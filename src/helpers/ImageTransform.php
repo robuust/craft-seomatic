@@ -12,16 +12,16 @@
 namespace nystudio107\seomatic\helpers;
 
 use Craft;
-use craft\base\ElementInterface;
-use craft\elements\Asset;
-use craft\elements\db\ElementQuery;
-use craft\elements\ElementCollection;
-use craft\fs\Local;
 use craft\helpers\StringHelper;
-use craft\models\ImageTransform as ImageTransformModel;
+use CraftCms\Cms\Asset\Elements\Asset;
+use CraftCms\Cms\Asset\Exceptions\AssetTransformException;
+use CraftCms\Cms\Element\Contracts\ElementInterface;
+use CraftCms\Cms\Element\ElementCollection;
+use CraftCms\Cms\Element\Queries\ElementQuery;
+use CraftCms\Cms\Image\Data\ImageTransform as ImageTransformModel;
+use CraftCms\Cms\Shared\Exceptions\NotSupportedException;
 use DateTime;
-use nystudio107\seomatic\helpers\Environment as EnvironmentHelper;
-use nystudio107\seomatic\Seomatic;
+use League\Flysystem\FilesystemException;
 use yii\base\InvalidConfigException;
 use function in_array;
 use function is_array;
@@ -124,32 +124,10 @@ class ImageTransform
             if ($transform !== null && !in_array($mimeType, self::ALLOWED_SOCIAL_MIME_TYPES, false)) {
                 $transform->format = self::DEFAULT_SOCIAL_FORMAT;
             }
-            // Generate a transformed image
-            $assets = Craft::$app->getAssets();
+            // Craft 6 resolves transforms through the asset's configured driver.
             try {
-                $volume = $asset->getVolume();
-            } catch (InvalidConfigException $e) {
-                $volume = null;
-            }
-            // If we're not in local dev, tell it to generate the transform immediately so that
-            // urls like `actions/assets/generate-transform` don't get cached
-            $generateNow = Seomatic::$environment === EnvironmentHelper::SEOMATIC_DEV_ENV ? null : true;
-            if ($volume->getFs() instanceof Local) {
-                // Preflight to ensure that the source asset actually exists to avoid Craft hanging
-                if (!$volume->fileExists($asset->getPath())) {
-                    $generateNow = false;
-                }
-            } else {
-                // If this is not a local volume, avoid a potentially long round-trip by
-                // being paranoid, and defaulting to not generating the image now
-                // if we're in local dev
-                if (Seomatic::$environment === EnvironmentHelper::SEOMATIC_DEV_ENV) {
-                    $generateNow = false;
-                }
-            }
-            try {
-                $url = $asset->getUrl($transform, $generateNow);
-            } catch (InvalidConfigException $e) {
+                $url = $transform === null ? $asset->getUrl() : $asset->transform($transform)->url;
+            } catch (AssetTransformException|FilesystemException|InvalidConfigException|NotSupportedException $e) {
                 $url = null;
             }
             if ($url === null) {
