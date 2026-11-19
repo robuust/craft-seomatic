@@ -19,7 +19,7 @@ use nystudio107\seomatic\Seomatic;
  * @package   Seomatic
  * @since     3.0.0
  */
-class JsonLd extends \craft\helpers\Json
+class JsonLd extends \yii\helpers\Json
 {
     // Constants
     // =========================================================================
