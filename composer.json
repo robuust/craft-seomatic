@@ -59,9 +59,9 @@
   "require": {
     "php": "^8.5",
     "craftcms/cms": "^6.0",
-    "nystudio107/craft-plugin-vite": "dev-feature/craft6-beta1-compatibility",
-    "nystudio107/craft-code-editor": "dev-feature/craft6-beta1-compatibility",
-    "nystudio107/craft-twig-sandbox": "dev-feature/craft6-beta1-compatibility",
+    "nystudio107/craft-plugin-vite": "dev-feature/craft-6-compatibility",
+    "nystudio107/craft-code-editor": "dev-feature/craft-6-compatibility",
+    "nystudio107/craft-twig-sandbox": "dev-feature/craft-6-compatibility",
     "php-science/textrank": "^1.0.3",
     "davechild/textstatistics": "^1.0.3",
     "sunra/php-simple-html-dom-parser": "^1.5.2",
